@@ -1,0 +1,66 @@
+[
+  {
+    "timestamp": "2025-10-24T10:19:18.588880",
+    "processing_time": 2.0,
+    "num_items": 3,
+    "score_risco": 20,
+    "frauds_detected": 0,
+    "time_per_item": 0.6666666666666666
+  },
+  {
+    "timestamp": "2025-10-24T10:19:18.589146",
+    "processing_time": 2.1,
+    "num_items": 4,
+    "score_risco": 25,
+    "frauds_detected": 1,
+    "time_per_item": 0.525
+  },
+  {
+    "timestamp": "2025-10-24T10:19:18.590155",
+    "processing_time": 2.2,
+    "num_items": 5,
+    "score_risco": 30,
+    "frauds_detected": 0,
+    "time_per_item": 0.44000000000000006
+  },
+  {
+    "timestamp": "2025-10-24T10:19:18.591240",
+    "processing_time": 2.3,
+    "num_items": 6,
+    "score_risco": 35,
+    "frauds_detected": 1,
+    "time_per_item": 0.3833333333333333
+  },
+  {
+    "timestamp": "2025-10-24T10:19:18.592419",
+    "processing_time": 2.4,
+    "num_items": 7,
+    "score_risco": 40,
+    "frauds_detected": 0,
+    "time_per_item": 0.34285714285714286
+  },
+  {
+    "timestamp": "2025-10-24T10:19:53.995248",
+    "processing_time": 2.0,
+    "num_items": 2,
+    "score_risco": 15,
+    "frauds_detected": 0,
+    "time_per_item": 1.0
+  },
+  {
+    "timestamp": "2025-10-24T10:19:53.995580",
+    "processing_time": 2.5,
+    "num_items": 3,
+    "score_risco": 25,
+    "frauds_detected": 1,
+    "time_per_item": 0.8333333333333334
+  },
+  {
+    "timestamp": "2025-10-24T10:19:53.996435",
+    "processing_time": 3.0,
+    "num_items": 4,
+    "score_risco": 35,
+    "frauds_detected": 0,
+    "time_per_item": 0.75
+  }
+]
