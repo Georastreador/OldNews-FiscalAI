@@ -1,0 +1,132 @@
+# OldNews FiscalAI - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+production.env
+debug_config_example.env
+
+# Logs
+logs/
+*.log
+
+# Data Files (keep samples but ignore large datasets)
+data/datasets/
+data/processed/
+*.csv
+*.xlsx
+*.xls
+*.json
+!data/samples/
+!data/validation/
+!data/tables/
+
+# Model Files (keep small models, ignore large ones)
+models/*.gguf
+models/*.bin
+models/*.safetensors
+!models/README.md
+
+# Temporary Files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test Files (keep structure but ignore temporary test files)
+test_*.py
+!tests/
+*_backup_*.py
+*_teste_*.py
+
+# Performance and Monitoring
+performance_alerts.log
+metrics_report_*.csv
+
+# Backup Files
+*_backup_*
+*.bak
+*.backup
+
+# Cache
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation Build
+docs/_build/
+site/
+
+# API Keys and Secrets
+*.key
+*.pem
+secrets.json
+config.json
+
+# Large Files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Node.js (if any frontend components)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Streamlit
+.streamlit/secrets.toml
