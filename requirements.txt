@@ -1,0 +1,72 @@
+# OldNews FiscalAI - Requirements
+# Python 3.11+
+
+# Core AI & Agents
+crewai==0.203.1
+langchain==0.3.27
+langchain-community==0.3.31
+langchain-core==0.3.79
+langchain-google-genai==2.1.12
+
+# LLM Providers
+openai==1.12.0
+anthropic==0.18.0
+google-generativeai==0.8.5
+groq==0.4.1
+
+# Local LLM
+ollama==0.1.6
+llama-cpp-python==0.3.16
+
+# Data Processing
+pandas==2.2.0
+numpy==1.26.3
+openpyxl==3.1.2
+
+# XML Processing
+lxml==5.1.0
+xmltodict==0.13.0
+
+# Data Validation
+pydantic==2.11.10
+pydantic-settings==2.11.0
+
+# Statistical Analysis
+scipy==1.12.0
+scikit-learn==1.4.0
+
+# Graph Analysis (for triangulation detection)
+networkx==3.2.1
+
+# OCR (optional, for scanned NFe)
+pytesseract==0.3.10
+# paddleocr==2.7.0  # Uncomment if needed
+
+# PDF Generation
+reportlab==4.0.9
+fpdf2==2.7.7
+
+# Web Interface
+streamlit==1.50.0
+gradio==4.19.0
+plotly==5.18.0
+
+# Database
+sqlalchemy==2.0.25
+redis==5.0.1
+
+# Utilities
+python-dotenv==1.0.1
+requests==2.31.0
+tqdm==4.66.1
+
+# Security & Monitoring
+psutil==7.1.2
+cryptography==43.0.3
+matplotlib==3.10.7
+chardet==5.2.0
+
+# Testing
+pytest==8.0.0
+pytest-cov==4.1.0
+

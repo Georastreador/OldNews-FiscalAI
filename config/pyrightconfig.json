@@ -1,0 +1,18 @@
+{
+    "venvPath": ".",
+    "venv": "venv",
+    "extraPaths": [
+        "./src",
+        "./venv/lib/python3.13/site-packages"
+    ],
+    "pythonVersion": "3.13",
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true,
+    "include": [
+        "src/**/*.py"
+    ],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__"
+    ]
+}

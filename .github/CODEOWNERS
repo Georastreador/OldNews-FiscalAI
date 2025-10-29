@@ -1,0 +1,25 @@
+# OldNews FiscalAI - Code Owners
+# Define quem é responsável por diferentes partes do código
+
+# Global owners
+* @rikardocroce
+
+# Core application files
+/src/ @rikardocroce
+/ui/ @rikardocroce
+/tests/ @rikardocroce
+
+# Configuration files
+/config/ @rikardocroce
+/requirements.txt @rikardocroce
+/.github/ @rikardocroce
+
+# Documentation
+/docs/ @rikardocroce
+/README.md @rikardocroce
+/INSTALACAO.md @rikardocroce
+
+# Scripts
+/scripts/ @rikardocroce
+/executar_aplicacao.sh @rikardocroce
+/INICIAR_APLICACAO.bat @rikardocroce

@@ -1,0 +1,68 @@
+name: Testes e Validação
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12, 3.13]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configurar Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Executar testes de importação
+      run: |
+        python -c "from src.models.schemas import NFe, ResultadoAnalise; print('✅ Modelos OK')"
+        python -c "from src.agents.agente1_extrator import Agente1Extrator; print('✅ Agentes OK')"
+        python -c "import streamlit; print('✅ Streamlit OK')"
+    
+    - name: Verificar estrutura do projeto
+      run: |
+        echo "Verificando estrutura do projeto..."
+        ls -la
+        echo "Verificando diretórios principais..."
+        ls -la src/ ui/ tests/ docs/ config/ scripts/
+    
+    - name: Verificar arquivos de configuração
+      run: |
+        echo "Verificando arquivos de configuração..."
+        ls -la config/
+        echo "Verificando requirements.txt..."
+        head -10 requirements.txt
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.13
+    
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install flake8
+    
+    - name: Executar linting
+      run: |
+        flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 src/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
