@@ -5,7 +5,8 @@ Gerencia diferentes provedores de LLM (local e APIs)
 
 from typing import Optional, Dict, Any
 from langchain_community.llms import Ollama
-from langchain_community.chat_models import ChatOpenAI, ChatAnthropic
+from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 import os

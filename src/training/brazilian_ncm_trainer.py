@@ -325,10 +325,27 @@ class BrazilianNCMTrainer:
         # Preparar dados
         X, y, feature_names = self.prepare_training_data()
         
+        # Verificar se há classes com poucas amostras
+        from collections import Counter
+        class_counts = Counter(y)
+        min_class_count = min(class_counts.values())
+        
+        # Se alguma classe tem menos de 2 amostras, não usar stratify
+        use_stratify = min_class_count >= 2
+        
+        if not use_stratify:
+            logger.warning(f"Algumas classes têm poucas amostras (mínimo: {min_class_count}). "
+                          f"Usando divisão aleatória sem estratificação.")
+        
         # Dividir em treino e teste
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=test_size, random_state=42, stratify=y
-        )
+        if use_stratify:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=test_size, random_state=42, stratify=y
+            )
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=test_size, random_state=42
+            )
         
         # Treinar modelo
         logger.info("Iniciando treinamento do modelo NCM...")

@@ -16,13 +16,15 @@ O **OldNews FiscalAI** é um sistema avançado de análise fiscal que utiliza in
 - 🔍 **Análise Inteligente**: Detecção automática de fraudes fiscais
 - 🤖 **Sistema Multi-Agente**: 5 agentes especializados com CrewAI
 - 📊 **Dashboard Interativo**: Interface web moderna com Streamlit
-- 💬 **Chat com IA V2**: Assistente conversacional inteligente com acesso direto aos dados
+- 💬 **Chat Inteligente V2**: Assistente conversacional com consultas diretas aos dados brutos
+- 🔒 **Interface de Privacidade**: Escolha entre modelos locais (100% privado) ou APIs externas
 - 📄 **Suporte Multi-formato**: XML, CSV, NFS-e com processamento de múltiplas NFs
 - 🚨 **Detecção de Fraudes**: 7 tipos de fraudes detectáveis
 - 📈 **Relatórios TXT**: Exportação de análises detalhadas em formato texto
 - 🔒 **Validação XML Schema**: Verificação de conformidade com schemas oficiais
 - ⚡ **Cache Inteligente**: Sistema de cache para otimização de performance
 - 🛡️ **Segurança Avançada**: Headers de segurança, rate limiting e auditoria
+- 🚀 **Scripts de Execução**: Instalação e execução automatizada para usuários não-técnicos
 
 ## 🏗️ Arquitetura
 
@@ -58,11 +60,11 @@ OldNews FiscalAI/
 
 ### ⚡ Instalação Rápida
 
-#### **Opção 1: Script Automático (Recomendado)**
+#### **Opção 1: Script Automático (Recomendado para Usuários Não-Técnicos)**
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/OldNews-FiscalAI.git
+git clone https://github.com/Georastreador/OldNews-FiscalAI.git
 cd OldNews-FiscalAI
 
 # 2. Execute o script automático
@@ -71,13 +73,22 @@ cd OldNews-FiscalAI
 
 # Windows:
 INICIAR_APLICACAO.bat
+# ou
+INICIAR_APLICACAO.ps1
 ```
 
-#### **Opção 2: Manual**
+**O script automático:**
+- ✅ Cria e ativa o ambiente virtual
+- ✅ Instala todas as dependências
+- ✅ Configura arquivos .env automaticamente
+- ✅ Verifica portas e processos
+- ✅ Inicia a aplicação automaticamente
+
+#### **Opção 2: Manual (Para Desenvolvedores)**
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/OldNews-FiscalAI.git
+git clone https://github.com/Georastreador/OldNews-FiscalAI.git
 cd OldNews-FiscalAI
 
 # 2. Crie o ambiente virtual
@@ -90,9 +101,7 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 
 # 4. Configure as variáveis de ambiente
-
-```bash
-cp production.env.example .env
+cp config/env.example .env
 # Edite o arquivo .env com suas configurações
 
 # Para OpenAI (recomendado)
@@ -101,16 +110,23 @@ export OPENAI_API_KEY="sua_chave_aqui"
 
 ## 🎯 Uso
 
-### Interface Web (Recomendado)
+### 🚀 Início Rápido (Recomendado)
 
 ```bash
-./start_app.sh
+# Execução automática completa
+./executar_aplicacao.sh
 ```
 
-### Interface Interativa
+### Interface Web
 
 ```bash
-./start_fiscalai.sh
+# Linux/macOS
+./run_ui.sh
+
+# Windows
+INICIAR_APLICACAO.bat
+# ou
+INICIAR_APLICACAO.ps1
 ```
 
 ### API REST
@@ -131,6 +147,26 @@ streamlit run ui/app.py
 ```bash
 python main.py arquivo_nfe.xml --model mistral-7b-local
 ```
+
+## 💬 Chat Inteligente V2
+
+O sistema inclui um assistente conversacional avançado que pode responder consultas diretas sobre os dados carregados:
+
+### Exemplos de Consultas
+
+- **"Quantas NFs foram analisadas?"**
+- **"Qual o valor total das NFs?"**
+- **"Quantas NFs estão entre R$ 500 e R$ 1000?"**
+- **"Quais fraudes foram detectadas?"**
+- **"Quantos itens tem cada NF?"**
+- **"Quais CNPJs estão nas NFs?"**
+- **"Qual o período das NFs?"**
+
+### Interface de Privacidade
+
+- 🏠 **Modelo Local**: 100% privado, gratuito, offline
+- 🌐 **API Externa**: Modelos avançados (OpenAI, Anthropic, Google, Groq)
+- 🔄 **Troca Fácil**: Botão de reinicialização para mudar de modelo
 
 ## 📊 Exemplo de Uso
 
@@ -191,11 +227,22 @@ OldNews-FiscalAI/
 │   ├── tables/           # Tabelas de referência
 │   └── validation/       # Dados de validação
 ├── models/               # Modelos de IA locais
+├── config/               # Configurações e exemplos
+│   ├── env.example       # Exemplo de variáveis de ambiente
+│   └── production.env.example
 ├── docs/                 # Documentação
 ├── scripts/              # Scripts de execução
 ├── cache/                # Cache de resultados
 ├── logs/                 # Logs do sistema
-└── security/             # Schemas e auditoria
+├── security/             # Schemas e auditoria
+├── executar_aplicacao.sh # Script principal de execução
+├── run_ui.sh            # Script para interface web
+├── run_api.sh           # Script para API REST
+├── INICIAR_APLICACAO.bat # Script Windows
+├── INICIAR_APLICACAO.ps1 # Script PowerShell
+├── requirements.txt      # Dependências Python
+├── requirements_working.txt # Versões funcionais
+└── README.md            # Este arquivo
 ```
 
 ## 🔧 Configuração
@@ -249,6 +296,12 @@ python -c "from src.models import *; print('✅ OK')"
 
 ## 📚 Documentação
 
+### **Guias Principais**
+- [🚀 Scripts de Execução](SCRIPTS_EXECUCAO.md) - Como usar todos os scripts
+- [🪟 Como Usar no Windows](COMO_USAR_WINDOWS.md) - Guia completo para Windows
+- [🔒 Interface de Privacidade](INTERFACE_PRIVACIDADE.md) - Configuração de modelos
+
+### **Documentação Técnica**
 - [📖 Guia de Instalação](docs/installation.md)
 - [🎯 Guia de Uso](docs/usage.md)
 - [🔧 Configuração Avançada](docs/configuration.md)

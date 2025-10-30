@@ -1,0 +1,42 @@
+{
+  "python.defaultInterpreterPath": "/Users/rikardocroce/Documents/GitHub/ROC_FiscalAI/OldNews-FiscalAI/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "./src",
+    "./ui",
+    "./venv/lib/python3.13/site-packages"
+  ],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.indexing": true,
+  "python.analysis.ignore": [
+    "**/venv/**"
+  ],
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    "reportMissingTypeStubs": "none"
+  },
+  "python.analysis.packageIndexDepths": [
+    {
+      "name": "langchain_openai",
+      "depth": 10
+    },
+    {
+      "name": "langchain_google_genai", 
+      "depth": 10
+    },
+    {
+      "name": "langchain_groq",
+      "depth": 10
+    },
+    {
+      "name": "chardet",
+      "depth": 10
+    },
+    {
+      "name": "plotly",
+      "depth": 10
+    }
+  ]
+}

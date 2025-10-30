@@ -1,57 +1,86 @@
 # 📚 Documentação - OldNews FiscalAI
 
-Esta pasta contém toda a documentação do projeto OldNews FiscalAI.
+## 🎯 Guias Rápidos
 
-## 📁 Estrutura
-
-### 📊 **reports/**
-Relatórios de análise, conferências e testes do sistema.
-
-- `RELATORIO_CONFERENCIA_TOTAL.md` - Conferência completa da aplicação
-- `RELATORIO_ANALISE_INTEGRIDADE.md` - Análise de integridade do sistema
-- `RESUMO_TESTE_MULTIPLAS_NOTAS.md` - Resumo de testes com múltiplas notas
-- `RELATORIO_CORRECAO_CSV_UTF8.md` - Correção do erro de codificação UTF-8
-- `RELATORIO_CORRECAO_MULTIPLAS_NFSE.md` - Correção do processamento de múltiplas NFS-e
-
-### 🔧 **corrections/**
-Documentação de correções e melhorias implementadas.
-
-- `README_CORRECAO_UI.md` - Correções na interface do usuário
-- `README_CORRECOES_CHAT.md` - Correções no sistema de chat
-- `RELATORIO_CORRECAO_CSV_UTF8.md` - Correção do erro de codificação UTF-8
-- `RELATORIO_CORRECAO_MULTIPLAS_NFSE.md` - Correção do processamento de múltiplas NFS-e
-
-### 📖 **Guias e Configurações**
-- `GUIA_CONFIGURACAO_OPENAI.md` - Guia de configuração da API OpenAI
-
-## 🎯 **Como Usar**
+### **Para Usuários Não-Técnicos**
+- [🪟 Como Usar no Windows](../COMO_USAR_WINDOWS.md) - Guia completo para Windows
+- [🚀 Scripts de Execução](../SCRIPTS_EXECUCAO.md) - Como usar todos os scripts
+- [🔒 Interface de Privacidade](../INTERFACE_PRIVACIDADE.md) - Configuração de modelos
 
 ### **Para Desenvolvedores**
-1. Consulte os relatórios em `reports/` para entender o estado atual do sistema
-2. Verifique as correções em `corrections/` para ver melhorias implementadas
-3. Use os guias de configuração para setup do ambiente
+- [📖 Guia de Instalação](installation.md) - Instalação detalhada
+- [🎯 Guia de Uso](usage.md) - Como usar a aplicação
+- [🔧 Configuração Avançada](configuration.md) - Configurações avançadas
+- [🤖 Agentes](agents.md) - Documentação dos agentes
+- [🚨 Detectores](detectors.md) - Detectores de fraude
+- [📊 API](api.md) - Documentação da API REST
 
-### **Para Usuários**
-1. Leia os relatórios de conferência para entender as funcionalidades
-2. Consulte as correções para ver melhorias recentes
-3. Use os guias de configuração para configurar APIs externas
+## 📋 Documentos Técnicos
 
-## 📝 **Convenções**
+### **Desenvolvimento**
+- [📝 Instalação](installation.md) - Processo de instalação
+- [🔧 Melhorias Implementadas](SCRIPT_MELHORIAS.md) - Histórico de melhorias
 
-- **Relatórios**: Nome começando com `RELATORIO_`
-- **Correções**: Nome começando com `README_CORRECAO_` ou `RELATORIO_CORRECAO_`
-- **Guias**: Nome começando com `GUIA_`
-- **Resumos**: Nome começando com `RESUMO_`
+### **Arquitetura**
+- [🤖 Agentes](agents.md) - Sistema multi-agente
+- [🚨 Detectores](detectors.md) - Detecção de fraudes
+- [📊 API](api.md) - API REST
 
-## 🔄 **Atualizações**
+### **Configuração**
+- [🔧 Configuração Avançada](configuration.md) - Configurações detalhadas
+- [🔒 Interface de Privacidade](../INTERFACE_PRIVACIDADE.md) - Modelos de IA
 
-Esta documentação é atualizada sempre que:
-- Novas funcionalidades são implementadas
-- Correções são aplicadas
-- Testes são realizados
-- Conferências são feitas
+## 🚀 Início Rápido
+
+### **1. Instalação**
+```bash
+# Clone o repositório
+git clone https://github.com/Georastreador/OldNews-FiscalAI.git
+cd OldNews-FiscalAI
+
+# Execute o script automático
+./executar_aplicacao.sh  # Linux/macOS
+# ou
+INICIAR_APLICACAO.bat    # Windows
+```
+
+### **2. Uso Básico**
+1. Acesse http://localhost:8501
+2. Configure sua privacidade (Local ou API Externa)
+3. Carregue um arquivo XML ou CSV
+4. Use o chat para fazer perguntas sobre os dados
+
+### **3. Exemplos de Consultas**
+- "Quantas NFs foram analisadas?"
+- "Qual o valor total das NFs?"
+- "Quais fraudes foram detectadas?"
+
+## 📁 Estrutura da Documentação
+
+```
+docs/
+├── README.md              # Este arquivo
+├── installation.md        # Guia de instalação
+├── usage.md              # Guia de uso
+├── configuration.md      # Configuração avançada
+├── agents.md             # Documentação dos agentes
+├── detectors.md          # Detectores de fraude
+├── api.md                # API REST
+└── SCRIPT_MELHORIAS.md   # Histórico de melhorias
+```
+
+## 🔗 Links Úteis
+
+- **Repositório:** https://github.com/Georastreador/OldNews-FiscalAI
+- **Issues:** https://github.com/Georastreador/OldNews-FiscalAI/issues
+- **Discussões:** https://github.com/Georastreador/OldNews-FiscalAI/discussions
+
+## 📞 Suporte
+
+- **Email:** ursodecasaco@gmail.com
+- **GitHub Issues:** Para bugs e sugestões
+- **GitHub Discussions:** Para dúvidas e discussões
 
 ---
 
-**📅 Última atualização:** 28 de Outubro de 2025  
-**👨‍💻 Mantido por:** Equipe OldNews FiscalAI
+**Desenvolvido com ❤️ para análise fiscal inteligente**

@@ -254,10 +254,27 @@ class AdaptiveMLSystem:
         if len(X) < 10:
             raise ValueError("Poucos dados para treinamento")
         
+        # Verificar se há classes com poucas amostras
+        from collections import Counter
+        class_counts = Counter(y)
+        min_class_count = min(class_counts.values())
+        
+        # Se alguma classe tem menos de 2 amostras, não usar stratify
+        use_stratify = min_class_count >= 2
+        
+        if not use_stratify:
+            logger.warning(f"Algumas classes têm poucas amostras (mínimo: {min_class_count}). "
+                          f"Usando divisão aleatória sem estratificação.")
+        
         # Dividir em treino e teste
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42, stratify=y
-        )
+        if use_stratify:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42, stratify=y
+            )
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42
+            )
         
         # Normalizar features para alguns modelos
         if model_name in ['logistic_regression', 'svm', 'neural_network']:
@@ -355,9 +372,23 @@ class AdaptiveMLSystem:
         
         # Calcular métricas do ensemble
         X, y = self.prepare_training_data()
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42, stratify=y
-        )
+        
+        # Verificar se há classes com poucas amostras
+        from collections import Counter
+        class_counts = Counter(y)
+        min_class_count = min(class_counts.values())
+        
+        # Se alguma classe tem menos de 2 amostras, não usar stratify
+        use_stratify = min_class_count >= 2
+        
+        if use_stratify:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42, stratify=y
+            )
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42
+            )
         
         ensemble_predictions = self._ensemble_predict(X_test, trained_models)
         

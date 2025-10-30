@@ -1,104 +1,11 @@
-# OldNews FiscalAI - .gitignore
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual Environment
 venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Logs
+__pycache__/
+.cache/
+cache/
 logs/
 *.log
-
-# Cache
-cache/
-model_cache/
 *.cache
-
-# Data (manter apenas exemplos)
-data/validation/
-data/tables/
-feedback_data/
-metrics/
-
-# Security
-security/audit/
-*.env
-.env
-.env.local
-.env.production
-.env.staging
-
-# Temporary files
-temp/
-tmp/
-*.tmp
-*.temp
-
-# Model files (grandes demais para Git)
+*.pyc
+.DS_Store
+.venv/
 models/*.gguf
-models/*.bin
-models/*.safetensors
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pytest
-.pytest_cache/
-.coverage
-htmlcov/
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# Streamlit
-.streamlit/
-
-# API Keys (se houver arquivos locais)
-api_keys.txt
-secrets.txt

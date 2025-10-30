@@ -407,6 +407,14 @@ class ModelCache:
                 'compression_enabled': self.compression
             }
     
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Alias para get_stats() - compatibilidade com código existente"""
+        return self.get_stats()
+    
+    def cleanup_expired(self):
+        """Método público para limpeza de cache expirado"""
+        self._cleanup_expired()
+    
     def clear_cache(self):
         """Limpa todo o cache"""
         with self.lock:

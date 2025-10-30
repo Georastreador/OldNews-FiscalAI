@@ -52,7 +52,8 @@ echo -e "${YELLOW}📦 Verificando dependências...${NC}"
 if [ ! -f "venv/pyvenv.cfg" ] || ! python -c "import streamlit" 2>/dev/null; then
     echo -e "${YELLOW}📥 Instalando dependências...${NC}"
     echo -e "${YELLOW}⏳ Isso pode levar alguns minutos...${NC}"
-    pip install -r requirements.txt
+    python -m pip install --upgrade pip wheel setuptools
+    python -m pip install -r requirements.txt
     echo -e "${GREEN}✅ Dependências instaladas${NC}"
 else
     echo -e "${GREEN}✅ Dependências já instaladas${NC}"
@@ -61,21 +62,60 @@ fi
 # Verificar arquivo .env
 echo -e "${YELLOW}🔍 Verificando configuração...${NC}"
 if [ ! -f ".env" ]; then
-    if [ -f "config/production.env.example" ]; then
+    if [ -f "production.env.example" ]; then
         echo -e "${YELLOW}📋 Criando arquivo .env...${NC}"
-        cp config/production.env.example .env
-        echo -e "${YELLOW}⚠️  IMPORTANTE: Edite o arquivo .env e adicione sua API Key da OpenAI${NC}"
+        cp production.env.example .env
+        echo -e "${YELLOW}⚠️  IMPORTANTE: Edite o arquivo .env e adicione suas chaves de API (OpenAI/Anthropic/Google/Groq)${NC}"
+    elif [ -f "debug_config_example.env" ]; then
+        echo -e "${YELLOW}📋 Criando arquivo .env a partir de debug_config_example.env...${NC}"
+        cp debug_config_example.env .env
+        echo -e "${YELLOW}⚠️  IMPORTANTE: Edite o arquivo .env e ajuste as chaves de API${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Nenhum arquivo de exemplo .env encontrado${NC}"
     fi
 else
     echo -e "${GREEN}✅ Arquivo .env encontrado${NC}"
 fi
 
-# Verificar se Streamlit está instalado
-echo -e "${YELLOW}🔍 Verificando Streamlit...${NC}"
+# Verificar dependências críticas
+echo -e "${YELLOW}🔍 Verificando dependências críticas...${NC}"
+MISSING_DEPS=()
+
+# Verificar Streamlit
 if ! python -c "import streamlit" 2>/dev/null; then
-    echo -e "${YELLOW}📥 Instalando Streamlit...${NC}"
-    pip install streamlit
-    echo -e "${GREEN}✅ Streamlit instalado${NC}"
+    MISSING_DEPS+=("streamlit")
+fi
+
+# Verificar pandas
+if ! python -c "import pandas" 2>/dev/null; then
+    MISSING_DEPS+=("pandas")
+fi
+
+# Verificar langchain
+if ! python -c "import langchain" 2>/dev/null; then
+    MISSING_DEPS+=("langchain")
+fi
+
+# Instalar dependências faltantes
+if [ ${#MISSING_DEPS[@]} -gt 0 ]; then
+    echo -e "${YELLOW}📥 Instalando dependências faltantes: ${MISSING_DEPS[*]}${NC}"
+    pip install "${MISSING_DEPS[@]}"
+    echo -e "${GREEN}✅ Dependências instaladas${NC}"
+else
+    echo -e "${GREEN}✅ Todas as dependências críticas estão instaladas${NC}"
+fi
+
+# Verificar se a porta 8501 está disponível
+echo -e "${YELLOW}🔍 Verificando porta 8501...${NC}"
+if lsof -Pi :8501 -sTCP:LISTEN -t >/dev/null 2>&1; then
+    echo -e "${YELLOW}⚠️  Porta 8501 já está em uso. Tentando parar processos...${NC}"
+    pkill -f "streamlit run" 2>/dev/null || true
+    sleep 2
+    if lsof -Pi :8501 -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo -e "${RED}❌ Não foi possível liberar a porta 8501${NC}"
+        echo -e "${YELLOW}💡 Feche outros processos que usam a porta 8501 e tente novamente${NC}"
+        exit 1
+    fi
 fi
 
 # Executar aplicação
@@ -93,9 +133,13 @@ echo ""
 # Aguardar um pouco
 sleep 3
 
-# Executar Streamlit
+# Executar Streamlit com tratamento de erro
 echo -e "${GREEN}🚀 Executando aplicação...${NC}"
-streamlit run ui/app.py
+if ! streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0; then
+    echo -e "${RED}❌ Erro ao executar a aplicação${NC}"
+    echo -e "${YELLOW}💡 Verifique os logs acima para mais detalhes${NC}"
+    exit 1
+fi
 
 echo ""
 echo -e "${YELLOW}Aplicação encerrada. Pressione Enter para fechar...${NC}"

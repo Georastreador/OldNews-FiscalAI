@@ -1,0 +1,16 @@
+{
+  "report_id": "RPT_20251029_103659",
+  "generated_at": "2025-10-29T10:36:59.969297",
+  "period_start": "2025-10-22T10:36:59.969184",
+  "period_end": "2025-10-29T10:36:59.969186",
+  "total_events": 6,
+  "events_by_type": {
+    "document_analysis": 6
+  },
+  "events_by_severity": {
+    "low": 6
+  },
+  "top_threats": [],
+  "security_score": 100.0,
+  "recommendations": []
+}

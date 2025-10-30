@@ -12,11 +12,11 @@ import os
 import time
 import logging
 import hashlib
-import chardet
+import chardet  # type: ignore
 from datetime import datetime, timedelta
 import pandas as pd
 import io
-import plotly.graph_objects as go
+import plotly.graph_objects as go  # type: ignore
 
 # Configuração de debug com proteção para produção
 PRODUCTION_MODE = os.getenv('FISCALAI_PRODUCTION', 'false').lower() == 'true'
@@ -299,39 +299,249 @@ def sidebar_configuracoes():
     
     st.sidebar.markdown("---")
     
-    # CONFIGURAÇÃO PADRÃO SIMPLIFICADA
-    st.sidebar.markdown("**🤖 Configuração Padrão**")
-    
-    # Usar configuração padrão estável
-    privacy_level = "🌐 OpenAI"
-    modelo = "gpt-4o (OpenAI)"
-    
-    st.sidebar.info("✅ **Configuração Padrão Ativa**")
-    st.sidebar.markdown(f"**Modelo:** {modelo}")
-    st.sidebar.markdown(f"**Privacidade:** {privacy_level}")
-    
-    # Aplicar configuração padrão automaticamente
-    st.session_state.privacy_level = privacy_level
-    st.session_state.modelo_selecionado = modelo
-    
-    # Status do Modelo (simplificado)
-    st.sidebar.markdown("---")
-    st.sidebar.success("✅ **Modelo Pronto para Uso**")
-    st.sidebar.markdown("🌐 **OpenAI GPT-4o**")
-    st.sidebar.markdown("🔧 **Configuração Estável**")
-    
-    # Auto-carregar modelo se necessário
-    if not st.session_state.get('modelo_carregado', False):
-        if st.sidebar.button("🔄 Carregar Modelo", use_container_width=True):
-            if carregar_modelo_escolhido():
-                st.rerun()
+    # SEÇÃO DE PRIVACIDADE
+    configurar_privacidade()
     
     st.sidebar.markdown("---")
     
-    # Botão Resetar Sessão (simplificado)
+    # Botão Resetar Sessão
     if st.sidebar.button("🔄 Resetar Sessão", use_container_width=True):
         st.session_state.clear()
         st.rerun()
+
+def configurar_privacidade():
+    """Configuração de privacidade e seleção de modelo"""
+    st.sidebar.markdown("### 🔒 Privacidade")
+    
+    # Opções de privacidade
+    opcoes_privacidade = {
+        "🏠 Local (Mistral)": "local",
+        "🌐 API Externa": "api"
+    }
+    
+    # Seleção de privacidade
+    if "privacidade_selecionada" not in st.session_state:
+        st.session_state.privacidade_selecionada = "local"
+    
+    privacidade = st.sidebar.selectbox(
+        "Escolha o tipo de modelo:",
+        options=list(opcoes_privacidade.keys()),
+        index=list(opcoes_privacidade.values()).index(st.session_state.privacidade_selecionada),
+        key="privacidade_select"
+    )
+    
+    st.session_state.privacidade_selecionada = opcoes_privacidade[privacidade]
+    
+    st.sidebar.markdown("---")
+    
+    # Configuração baseada na privacidade selecionada
+    if st.session_state.privacidade_selecionada == "local":
+        configurar_modelo_local()
+    else:
+        configurar_api_externa()
+
+def configurar_modelo_local():
+    """Configuração para modelo local"""
+    st.sidebar.markdown("### 🤖 Modelo Local")
+    
+    # Modelos locais disponíveis
+    modelos_locais = {
+        "Mistral 7B (Recomendado)": "mistral-7b-gguf",
+        "Mistral 7B (Ollama)": "mistral-7b-ollama",
+        "Llama 2 7B (Ollama)": "llama2-7b-ollama"
+    }
+    
+    if "modelo_local_selecionado" not in st.session_state:
+        st.session_state.modelo_local_selecionado = "mistral-7b-gguf"
+    
+    modelo_local = st.sidebar.selectbox(
+        "Selecione o modelo:",
+        options=list(modelos_locais.keys()),
+        index=list(modelos_locais.values()).index(st.session_state.modelo_local_selecionado),
+        key="modelo_local_select"
+    )
+    
+    st.session_state.modelo_local_selecionado = modelos_locais[modelo_local]
+    st.session_state.modelo_selecionado = st.session_state.modelo_local_selecionado
+    st.session_state.privacy_level = "🏠 Local"
+    
+    # Status do modelo local
+    st.sidebar.success("✅ **Modelo Local Ativo**")
+    st.sidebar.markdown(f"**Modelo:** {modelo_local}")
+    st.sidebar.markdown("🔒 **100% Privado**")
+    st.sidebar.markdown("💰 **Gratuito**")
+    
+    # Botão para carregar modelo
+    if st.sidebar.button("🔄 Carregar Modelo Local", use_container_width=True):
+        with st.spinner("Carregando modelo local..."):
+            if carregar_modelo_local():
+                st.success("✅ Modelo local carregado com sucesso!")
+                st.rerun()
+            else:
+                st.error("❌ Erro ao carregar modelo local")
+
+def configurar_api_externa():
+    """Configuração para API externa"""
+    st.sidebar.markdown("### 🌐 API Externa")
+    
+    # Provedores de API
+    provedores = {
+        "OpenAI": "openai",
+        "Anthropic (Claude)": "anthropic", 
+        "Google (Gemini)": "google",
+        "Groq": "groq"
+    }
+    
+    if "provedor_selecionado" not in st.session_state:
+        st.session_state.provedor_selecionado = "openai"
+    
+    provedor = st.sidebar.selectbox(
+        "Selecione o provedor:",
+        options=list(provedores.keys()),
+        index=list(provedores.values()).index(st.session_state.provedor_selecionado),
+        key="provedor_select"
+    )
+    
+    st.session_state.provedor_selecionado = provedores[provedor]
+    
+    # Modelos baseados no provedor
+    modelos_por_provedor = {
+        "openai": {
+            "GPT-4o": "gpt-4o",
+            "GPT-4o Mini": "gpt-4o-mini",
+            "GPT-3.5 Turbo": "gpt-3.5-turbo"
+        },
+        "anthropic": {
+            "Claude 3.5 Sonnet": "claude-3.5-sonnet",
+            "Claude 3 Haiku": "claude-3-haiku"
+        },
+        "google": {
+            "Gemini 1.5 Pro": "gemini-1.5-pro",
+            "Gemini 1.5 Flash": "gemini-1.5-flash"
+        },
+        "groq": {
+            "Llama 3.1 8B": "llama-3.1-8b",
+            "Mixtral 8x7B": "mixtral-8x7b"
+        }
+    }
+    
+    modelos_disponiveis = modelos_por_provedor.get(st.session_state.provedor_selecionado, {})
+    
+    if "modelo_api_selecionado" not in st.session_state:
+        st.session_state.modelo_api_selecionado = list(modelos_disponiveis.values())[0] if modelos_disponiveis else ""
+    
+    if modelos_disponiveis:
+        modelo_api = st.sidebar.selectbox(
+            "Selecione o modelo:",
+            options=list(modelos_disponiveis.keys()),
+            index=list(modelos_disponiveis.values()).index(st.session_state.modelo_api_selecionado) if st.session_state.modelo_api_selecionado in modelos_disponiveis.values() else 0,
+            key="modelo_api_select"
+        )
+        
+        st.session_state.modelo_api_selecionado = modelos_disponiveis[modelo_api]
+        st.session_state.modelo_selecionado = st.session_state.modelo_api_selecionado
+        st.session_state.privacy_level = f"🌐 {provedor}"
+    
+    # Configuração da API Key
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("**🔑 Configuração da API**")
+    
+    # Campos de API Key baseados no provedor
+    api_key_fields = {
+        "openai": "OPENAI_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY", 
+        "google": "GOOGLE_API_KEY",
+        "groq": "GROQ_API_KEY"
+    }
+    
+    campo_api_key = api_key_fields.get(st.session_state.provedor_selecionado, "API_KEY")
+    
+    # Obter API key atual (do session_state ou ambiente)
+    api_key_session = st.session_state.get(f"{campo_api_key.lower()}_input", "")
+    api_key_env = os.getenv(campo_api_key, "")
+    api_key_atual = api_key_session if api_key_session else api_key_env
+    
+    # Campo para inserir API key
+    api_key_input = st.sidebar.text_input(
+        f"Insira sua {campo_api_key}:",
+        value=api_key_atual,
+        type="password",
+        help=f"Cole sua API key do {provedor} aqui",
+        key=f"{campo_api_key.lower()}_input"
+    )
+    
+    # Mostrar informações do provedor
+    st.sidebar.markdown(f"**Provedor:** {provedor}")
+    st.sidebar.markdown(f"**Modelo:** {modelo_api}")
+    
+    # Botão para testar API (sempre visível)
+    if st.sidebar.button("🧪 Testar API", use_container_width=True):
+        # Sanitizar entrada (evitar espaços/quebras invisíveis)
+        api_key_sanitizada = (api_key_input or "").strip().strip('"').strip("'").replace("\u200b", "")
+        # Armazenar versão sanitizada em chave separada (não sobrescreve o widget)
+        st.session_state[f"{campo_api_key.lower()}_sanitized"] = api_key_sanitizada
+        if api_key_sanitizada and len(api_key_sanitizada) > 10:
+            with st.spinner("Testando API..."):
+                # Definir API key no ambiente
+                os.environ[campo_api_key] = api_key_sanitizada
+                if testar_api_externa(api_key_sanitizada):
+                    st.success("✅ API funcionando!")
+                else:
+                    st.error("❌ Erro na API")
+        else:
+            st.error("❌ Insira uma API key válida primeiro")
+        
+        # Botão para configurar API via página
+        if st.sidebar.button("⚙️ Configurar via Página", use_container_width=True):
+            st.session_state.current_page = "config"
+            st.rerun()
+
+def carregar_modelo_local():
+    """Carrega modelo local"""
+    try:
+        model_manager = get_model_manager()
+        llm = model_manager.get_llm(st.session_state.modelo_local_selecionado)
+        st.session_state.llm = llm
+        st.session_state.modelo_carregado = True
+        return True
+    except Exception as e:
+        st.error(f"Erro ao carregar modelo local: {str(e)}")
+        return False
+
+def testar_api_externa(api_key_input):
+    """Testa API externa"""
+    try:
+        # Campos de API Key baseados no provedor
+        api_key_fields = {
+            "openai": "OPENAI_API_KEY",
+            "anthropic": "ANTHROPIC_API_KEY", 
+            "google": "GOOGLE_API_KEY",
+            "groq": "GROQ_API_KEY"
+        }
+        
+        # Obter campo da API key
+        campo_api_key = api_key_fields.get(st.session_state.provedor_selecionado, "API_KEY")
+        
+        # Definir API key como variável de ambiente (sanitizada)
+        api_key_input = (api_key_input or "").strip().strip('"').strip("'").replace("\u200b", "")
+        os.environ[campo_api_key] = api_key_input
+        
+        # Testar API
+        model_manager = get_model_manager()
+        llm = model_manager.get_llm(st.session_state.modelo_api_selecionado)
+        
+        # Teste simples
+        response = llm.invoke("Teste")
+        st.session_state.llm = llm
+        st.session_state.modelo_carregado = True
+        return True
+    except Exception as e:
+        msg = str(e)
+        if "invalid_api_key" in msg.lower() or "Incorrect API key" in msg or "401" in msg:
+            st.error("❌ Erro na API: Chave inválida. Verifique se copiou a chave completa (sem espaços) e se é do tipo 'sk-' válida.")
+        else:
+            st.error(f"Erro na API: {msg}")
+        return False
 
 def pagina_inicio():
     st.markdown("<h3>Bem-vindo ao 🚀 <span style='color:#007aff;'>OldNews FiscalAI</span>!</h3>", unsafe_allow_html=True)
@@ -863,12 +1073,29 @@ def analisar_nfe(xml_path: str):
             st.success("🚀 **Resultado obtido do cache - Análise instantânea!**")
             st.info(f"Cache criado em: {cached_result['timestamp']}")
             
-            # Mostrar resultado do cache
+            # Restaurar estado a partir do cache
             if 'relatorio' in cached_result:
                 st.session_state.relatorio = cached_result['relatorio']
-                st.rerun()
-            else:
-                st.warning("Cache encontrado mas sem dados de relatório")
+            if 'nfe' in cached_result:
+                st.session_state.nfe_data = cached_result['nfe']
+            elif 'relatorio' in cached_result and hasattr(cached_result['relatorio'], 'nfe'):
+                # Fallback: derivar nfe_data do relatório armazenado
+                st.session_state.nfe_data = getattr(cached_result['relatorio'], 'nfe', None)
+            if 'classificacoes' in cached_result:
+                st.session_state.classificacoes = cached_result['classificacoes']
+            if 'multiple_nfes' in cached_result:
+                st.session_state.multiple_nfes = cached_result['multiple_nfes']
+            if 'multiple_resultados' in cached_result:
+                st.session_state.multiple_resultados = cached_result['multiple_resultados']
+            if 'csv_data' in cached_result:
+                st.session_state.csv_data = cached_result['csv_data']
+            if 'xml_path' in cached_result:
+                st.session_state.uploaded_xml_path = cached_result['xml_path']
+            
+            # Recarregar UI com estado restaurado
+            st.rerun()
+        else:
+            pass
     except Exception as e:
         logger.warning(f"Erro ao verificar cache: {e}")
     
@@ -974,6 +1201,24 @@ def analisar_nfe(xml_path: str):
                 st.session_state.classificacoes = todas_classificacoes[0]
                 st.session_state.multiple_nfes = todos_nfes
                 st.session_state.multiple_resultados = todos_resultados
+                st.session_state.uploaded_xml_path = xml_path
+                
+                # Salvar resultado consolidado (múltiplas NFs) no cache
+                try:
+                    result_cache = get_result_cache()
+                    cache_key = f"nfe_analysis_{hashlib.md5(xml_content.encode()).hexdigest()}"
+                    cache_data = {
+                        'relatorio': relatorio_consolidado,
+                        'nfe': todos_nfes[0],
+                        'classificacoes': todas_classificacoes[0],
+                        'multiple_nfes': todos_nfes,
+                        'multiple_resultados': todos_resultados,
+                        'timestamp': datetime.now().isoformat(),
+                        'xml_path': xml_path
+                    }
+                    result_cache.set(cache_key, cache_data)
+                except Exception as e:
+                    logger.warning(f"Erro ao salvar resultado consolidado no cache: {e}")
                 
                 # Inicializar Agente5Interface para chat
                 from src.agents import Agente5Interface
@@ -1092,6 +1337,7 @@ def analisar_nfe(xml_path: str):
         st.session_state.relatorio = relatorio_fiscal
         st.session_state.nfe_data = nfe
         st.session_state.classificacoes = classificacoes
+        st.session_state.uploaded_xml_path = xml_path
         
         # Salvar resultado no cache
         try:
@@ -1100,6 +1346,8 @@ def analisar_nfe(xml_path: str):
             
             cache_data = {
                 'relatorio': relatorio_fiscal,
+                'nfe': nfe,
+                'classificacoes': classificacoes,
                 'timestamp': datetime.now().isoformat(),
                 'xml_path': xml_path,
                 'fraudes_detectadas': len(relatorio_fiscal.resultado_analise.fraudes_detectadas)
@@ -3225,32 +3473,93 @@ def pagina_chat():
     st.markdown("---")
     st.subheader("💬 Chat FiscalAI - Assistente Inteligente")
     
+    # Mostrar informações do modelo atual
+    if st.session_state.get('modelo_carregado', False):
+        privacidade = st.session_state.get('privacidade_selecionada', 'local')
+        if privacidade == 'local':
+            modelo = st.session_state.get('modelo_local_selecionado', 'mistral-7b-gguf')
+            st.info(f"🤖 **Modelo Local Ativo:** {modelo} | 🔒 **100% Privado** | 💰 **Gratuito**")
+        else:
+            modelo = st.session_state.get('modelo_api_selecionado', 'gpt-4o')
+            provedor = st.session_state.get('provedor_selecionado', 'openai')
+            st.info(f"🌐 **API Externa Ativa:** {modelo} | **Provedor:** {provedor}")
+    else:
+        st.warning("⚠️ Nenhum modelo carregado. Configure um modelo na barra lateral.")
+    
     # Verificar se há dados carregados
-    dados_disponiveis = (
-        st.session_state.get('multiple_nfes') or 
-        st.session_state.get('nfe_data') or 
-        st.session_state.get('relatorio') or 
-        st.session_state.get('csv_data')
-    )
+    multiple_nfes = st.session_state.get('multiple_nfes', [])
+    nfe_data = st.session_state.get('nfe_data')
+    relatorio = st.session_state.get('relatorio')
+    csv_data = st.session_state.get('csv_data')
+    
+    # Debug: mostrar dados disponíveis
+    st.write(f"🔍 DEBUG Página Chat:")
+    st.write(f"- multiple_nfes: {len(multiple_nfes) if multiple_nfes else 0}")
+    st.write(f"- nfe_data: {nfe_data is not None}")
+    st.write(f"- relatorio: {relatorio is not None}")
+    st.write(f"- csv_data: {csv_data is not None}")
+    st.write(f"- session_state keys: {list(st.session_state.keys())}")
+    
+    dados_disponiveis = bool(multiple_nfes or nfe_data or relatorio or csv_data)
     
     if not dados_disponiveis:
         st.warning("⚠️ Nenhum arquivo carregado. Por favor, faça upload de um arquivo XML ou CSV primeiro.")
         st.info("💡 Vá para a página 'Upload' para carregar e analisar um arquivo.")
         return
     
-    # Inicializar Agente5InterfaceV2 se não existir
-    if not st.session_state.get("agente5_v2"):
+    # Inicializar Agente de Chat (Agente6) se não existir
+    if not st.session_state.get("agente5_v2") or not st.session_state.get('modelo_carregado', False):
         try:
-            from src.agents.agente5_interface_v2 import Agente5InterfaceV2
+            from src.agents.agente6_chat import Agente6Chat
             from src.utils.model_manager import get_model_manager
+            import os
             
             model_manager = get_model_manager()
-            # Forçar uso do GPT-4o para garantir funcionamento do chat
-            llm = model_manager.get_llm('gpt-4o')
             
-            agente5_v2 = Agente5InterfaceV2(llm)
+            # Usar configuração de privacidade selecionada
+            if st.session_state.get('privacidade_selecionada') == 'local':
+                # Usar modelo local
+                modelo_selecionado = st.session_state.get('modelo_local_selecionado', 'mistral-7b-gguf')
+                try:
+                    llm = model_manager.get_llm(modelo_selecionado)
+                    st.info(f"🤖 Usando modelo local: {modelo_selecionado}")
+                except Exception as e:
+                    st.error(f"❌ Erro ao carregar modelo local: {str(e)}")
+                    st.warning("💡 Verifique se o modelo local está disponível.")
+                    return
+            else:
+                # Usar API externa - verificar se há API key configurada
+                modelo_selecionado = st.session_state.get('modelo_api_selecionado', 'gpt-4o')
+                
+                # Campos de API Key baseados no provedor
+                api_key_fields = {
+                    "openai": "OPENAI_API_KEY",
+                    "anthropic": "ANTHROPIC_API_KEY", 
+                    "google": "GOOGLE_API_KEY",
+                    "groq": "GROQ_API_KEY"
+                }
+                
+                campo_api_key = api_key_fields.get(st.session_state.get('provedor_selecionado', 'openai'), "API_KEY")
+                api_key_session = st.session_state.get(f"{campo_api_key.lower()}_input", "")
+                api_key_env = os.getenv(campo_api_key, "")
+                api_key_atual = api_key_session if api_key_session else api_key_env
+                
+                # Definir API key como variável de ambiente temporária se disponível
+                if api_key_atual and "SUA_CHAV" not in api_key_atual:
+                    os.environ[campo_api_key] = api_key_atual
+                
+                try:
+                    llm = model_manager.get_llm(modelo_selecionado)
+                    st.info(f"🤖 Usando API externa: {modelo_selecionado}")
+                except Exception as e:
+                    st.error(f"❌ Erro ao carregar API externa: {str(e)}")
+                    st.warning("💡 Verifique se a API key está configurada corretamente.")
+                    return
+            
+            agente5_v2 = Agente6Chat(llm)
             st.session_state.agente5_v2 = agente5_v2
-            st.success("✅ Assistente V2 inicializado com sucesso!")
+            st.session_state.modelo_carregado = True
+            st.success("✅ Chat inicializado com sucesso!")
         except Exception as e:
             st.error(f"❌ Erro ao inicializar assistente: {str(e)}")
             st.warning("Assistente indisponível. Verifique se o modelo está carregado.")
@@ -3286,7 +3595,7 @@ def pagina_chat():
             st.write(resposta)
     
     # Botões de controle
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         if st.button("🗑️ Limpar Chat", help="Limpa o histórico de conversa"):
@@ -3295,6 +3604,15 @@ def pagina_chat():
             st.rerun()
     
     with col2:
+        if st.button("🔄 Reinicializar", help="Reinicializa o assistente com o modelo selecionado"):
+            # Limpar o agente atual
+            if "agente5_v2" in st.session_state:
+                del st.session_state.agente5_v2
+            st.session_state.modelo_carregado = False
+            st.session_state.historico_chat = []
+            st.rerun()
+    
+    with col3:
         # Botão de download da conversa
         if st.session_state.historico_chat:
             conversa_texto = agente5_v2.exportar_conversa()
@@ -3309,20 +3627,21 @@ def pagina_chat():
                 help="Baixa o histórico completo da conversa"
             )
     
-    with col3:
-        # Sugestões de perguntas
-        if st.button("💡 Sugestões", help="Mostra perguntas sugeridas"):
-            sugestoes = agente5_v2.sugerir_perguntas()
-            if sugestoes:
-                st.info("**Perguntas sugeridas:**")
-                for pergunta in sugestoes[:5]:  # Mostrar apenas 5 sugestões
-                    st.write(f"• {pergunta}")
-            else:
-                st.info("Nenhuma sugestão disponível no momento.")
+    with col4:
+        # Botão para perguntas simples
+        if st.button("🎯 Pergunta Simples", help="Limpa o histórico para fazer perguntas mais simples"):
+            st.session_state.historico_chat = []
+            agente5_v2.limpar_historico()
+            st.rerun()
     
     # Mostrar informações dos dados carregados
     with st.expander("📊 Informações dos Dados Carregados", expanded=False):
-        dados_info = agente5_v2._coletar_dados_reais()
+        if hasattr(agente5_v2, "_coletar_dados_reais"):
+            dados_info = agente5_v2._coletar_dados_reais()
+        elif hasattr(agente5_v2, "_coletar_contexto_compacto"):
+            dados_info = agente5_v2._coletar_contexto_compacto()
+        else:
+            dados_info = "Dados indisponíveis nesta sessão."
         st.text(dados_info)
 
 if __name__ == "__main__":

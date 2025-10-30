@@ -262,6 +262,14 @@ class ResultCache:
             'avg_access_count': round(avg_access, 2),
             'ttl_hours': self.ttl.total_seconds() / 3600
         }
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Alias para get_stats() - compatibilidade com código existente"""
+        return self.get_stats()
+    
+    def cleanup_expired(self):
+        """Método público para limpeza de cache expirado"""
+        self._cleanup_expired()
 
 
 # Instância global do cache

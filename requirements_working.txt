@@ -1,4 +1,4 @@
-# OldNews FiscalAI - Requirements
+# OldNews FiscalAI - Requirements (Versões Funcionais)
 # Python 3.11+
 
 # Core AI & Agents
@@ -13,14 +13,11 @@ langchain-groq==1.0.0
 # LLM Providers
 openai==1.109.1
 anthropic==0.71.0
-# Use official Generative Language client directly to stay compatible with langchain-google-genai
-google-ai-generativelanguage>=0.7,<1.0.0
-# Align with langchain-groq requirement (>=0.30.0,<1.0.0)
-groq>=0.30.0,<1.0.0
+google-generativeai==0.8.5
+groq==0.4.1
 
 # Local LLM
-# Bump ollama to align with httpx>=0.27 required by chromadb/gradio stack
-ollama>=0.3.0
+ollama==0.1.6
 llama-cpp-python==0.3.16
 
 # Data Processing
@@ -28,8 +25,8 @@ pandas==2.3.3
 numpy>=2.1.0
 openpyxl==3.1.5
 
-# XML Processing (ensure wheels available on macOS/Python 3.13)
-lxml>=5.2,<6.0
+# XML Processing
+lxml==6.0.2
 xmltodict==1.0.2
 
 # Data Validation
@@ -45,7 +42,6 @@ networkx==3.5
 
 # OCR (optional, for scanned NFe)
 pytesseract==0.3.10
-# paddleocr==2.7.0  # Uncomment if needed
 
 # PDF Generation
 reportlab==4.4.4
@@ -53,8 +49,7 @@ fpdf2==2.7.7
 
 # Web Interface
 streamlit==1.50.0
-# Gradio 4.19.0 exige numpy~=1.x; atualizar para suportar numpy 2.x
-gradio>=4.44.0,<5.0
+gradio==4.19.0
 plotly==5.18.0
 
 # Database
@@ -66,16 +61,16 @@ python-dotenv==1.2.1
 requests==2.32.5
 tqdm==4.67.1
 
-# Networking (unify transitive constraints: openai/anthropic/groq/gradio/chromadb)
-httpx>=0.27,<1.0
-
 # Security & Monitoring
-psutil>=5.9,<7.0
-cryptography>=42,<47
-matplotlib>=3.8,<3.10
+psutil==7.1.2
+cryptography==46.0.3
+matplotlib==3.10.7
 chardet==5.2.0
 
 # Testing
 pytest==8.0.0
 pytest-cov==4.1.0
 
+# Nota: Alguns conflitos menores de versão podem existir, mas não afetam o funcionamento
+# - google-generativeai vs google-ai-generativelanguage (compatível)
+# - gradio vs numpy (funciona com numpy 2.x)

@@ -1,0 +1,68 @@
+{
+  "include": [
+    "src",
+    "ui",
+    "main.py"
+  ],
+  "exclude": [
+    "venv",
+    "**/__pycache__",
+    "**/.pytest_cache",
+    "**/node_modules"
+  ],
+  "ignore": [
+    "**/venv/**"
+  ],
+  "pythonVersion": "3.13",
+  "pythonPlatform": "Darwin",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "pythonVersion": "3.13",
+      "pythonPlatform": "Darwin",
+      "extraPaths": [
+        "src",
+        "ui",
+        "venv/lib/python3.13/site-packages"
+      ]
+    }
+  ],
+  "typeCheckingMode": "basic",
+  "useLibraryCodeForTypes": true,
+  "autoImportCompletions": true,
+  "indexing": true,
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": false,
+  "reportUntypedFunctionDecorator": false,
+  "reportUntypedClassDecorator": false,
+  "reportUntypedBaseClass": false,
+  "reportUntypedNamedTuple": false,
+  "reportPrivateUsage": false,
+  "reportConstantRedefinition": false,
+  "reportIncompatibleMethodOverride": false,
+  "reportIncompatibleVariableOverride": false,
+  "reportInconsistentConstructor": false,
+  "reportOverlappingOverload": false,
+  "reportPossiblyUnboundVariable": false,
+  "reportUnnecessaryIsInstance": false,
+  "reportUnnecessaryComparison": false,
+  "reportUnnecessaryContains": false,
+  "reportAssertAlwaysTrue": false,
+  "reportSelfClsParameterName": false,
+  "reportImplicitStringConcatenation": false,
+  "reportInvalidStringEscapeSequence": false,
+  "reportUnknownParameterType": false,
+  "reportUnknownArgumentType": false,
+  "reportUnknownLambdaType": false,
+  "reportUnknownVariableType": false,
+  "reportUnknownMemberType": false,
+  "reportMissingParameterType": false,
+  "reportMissingTypeArgument": false,
+  "reportInvalidTypeVarUse": false,
+  "reportCallInDefaultInitializer": false,
+  "reportUnnecessaryTypeIgnoreComment": false,
+  "reportImplicitOverride": false,
+  "reportShadowedImports": false,
+  "reportUnusedCallResult": false,
+  "reportUnusedCoroutine": false
+}
