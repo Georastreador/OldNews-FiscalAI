@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLDNEWS FISCAL.AI - Pitch Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+
+        .content-container {
+            width: 90%;
+            max-width: 1400px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Slide 1 - Capa */
+        .slide-1 h1 {
+            font-size: 5em;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        .slide-1 .subtitle {
+            font-size: 2em;
+            color: #00ff88;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .slide-1 .tagline {
+            font-size: 1.5em;
+            color: #e0e0e0;
+            text-align: center;
+            max-width: 900px;
+            line-height: 1.6;
+        }
+
+        /* Slide 2 - Problema */
+        .slide-2 h2 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #ff6b6b;
+        }
+
+        .problem-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .stat-box {
+            background: rgba(255, 107, 107, 0.15);
+            padding: 35px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 107, 107, 0.4);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-box .number {
+            font-size: 3.2em;
+            font-weight: 800;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+
+        .stat-box .text {
+            font-size: 1.3em;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        /* Slide 3 - Solução */
+        .slide-3 h2 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #00ff88;
+        }
+
+        .solution-intro {
+            font-size: 1.4em;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 1000px;
+            line-height: 1.6;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .agent-card {
+            background: rgba(0, 255, 136, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.6);
+        }
+
+        .agent-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .agent-card .title {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+
+        .agent-card .desc {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .performance {
+            margin-top: 40px;
+            font-size: 1.8em;
+            color: #ffd700;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Slide 4 - Vídeo */
+        .slide-4 h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #00d4ff;
+        }
+
+        .video-container {
+            width: 85%;
+            max-width: 1000px;
+            background: #000;
+            border-radius: 20px;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
+            overflow: hidden;
+        }
+
+        #demoVideo {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Slide 5 - Resultados */
+        .slide-5 h2 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #ffd700;
+        }
+
+        .detectors-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+            max-width: 1000px;
+        }
+
+        .detector-item {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+            font-size: 1.3em;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .result-card {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #ffd700;
+        }
+
+        .result-card .metric {
+            font-size: 2.8em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .result-card .description {
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
+        /* Slide 6 - Mercado */
+        .slide-6 h2 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #00d4ff;
+        }
+
+        .market-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+
+        .market-stat {
+            text-align: center;
+            flex: 1;
+        }
+
+        .market-stat .big-number {
+            font-size: 3.8em;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .market-stat .label {
+            font-size: 1.3em;
+            line-height: 1.4;
+        }
+
+        .strategy {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .phase {
+            flex: 1;
+            background: rgba(0, 212, 255, 0.15);
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #00d4ff;
+        }
+
+        .phase h4 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            color: #00d4ff;
+        }
+
+        .phase p {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .ready-badge {
+            margin-top: 40px;
+            font-size: 1.8em;
+            color: #00ff88;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Slide 7 - Encerramento */
+        .slide-7 h2 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #00ff88;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 30px;
+            max-width: 900px;
+        }
+
+        .checklist li {
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding-left: 60px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .checklist li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 1.3em;
+        }
+
+        .final-question {
+            margin-top: 50px;
+            font-size: 2.2em;
+            color: #ffd700;
+            text-align: center;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .final-cta {
+            margin-top: 40px;
+            font-size: 2.5em;
+            color: #00ff88;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .thanks {
+            margin-top: 30px;
+            font-size: 1.8em;
+            text-align: center;
+            color: #fff;
+        }
+
+        /* Controles */
+        .controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn {
+            background: rgba(0, 212, 255, 0.3);
+            border: 2px solid #00d4ff;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(0, 212, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .btn.play-btn {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            color: #000;
+            font-size: 1.3em;
+            padding: 18px 40px;
+        }
+
+        .btn.play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1.3em;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #00d4ff;
+        }
+
+        .time-display {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1.2em;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #00ff88;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="content-container">
+            <!-- Slide 1: Capa -->
+            <div class="slide slide-1 active">
+                <h1>OLDNEWS FISCAL.AI</h1>
+                <div class="subtitle">Sistema Multi-Agente Inteligente</div>
+                <div class="tagline">Revolucionando a análise fiscal no Brasil com Inteligência Artificial</div>
+            </div>
+
+            <!-- Slide 2: Problema -->
+            <div class="slide slide-2">
+                <h2>O Problema</h2>
+                <div class="problem-stats">
+                    <div class="stat-box">
+                        <div class="number">52,4 bi</div>
+                        <div class="text">Notas fiscais eletrônicas emitidas desde 2006</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">70%</div>
+                        <div class="text">Das empresas já emitiram notas com informações tributárias divergentes</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">56%</div>
+                        <div class="text">Dos erros envolvem classificações incorretas (NCM, CFOP, CST)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">R$ 35 bi</div>
+                        <div class="text">Em perdas operacionais no varejo, sem contar multas</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Solução -->
+            <div class="slide slide-3">
+                <h2>A Solução</h2>
+                <div class="solution-intro">
+                    Uma equipe digital 24/7 trabalhando para você
+                </div>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="icon">📄</div>
+                        <div class="title">Extrator</div>
+                        <div class="desc">Processa XML em segundos</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="icon">🤖</div>
+                        <div class="title">Classificador NCM</div>
+                        <div class="desc">IA especializada</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="icon">✅</div>
+                        <div class="title">Validador Fiscal</div>
+                        <div class="desc">Conhece a legislação</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="icon">🎯</div>
+                        <div class="title">Orquestrador</div>
+                        <div class="desc">Coordena tudo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="icon">💬</div>
+                        <div class="title">Assistente</div>
+                        <div class="desc">Conversacional</div>
+                    </div>
+                </div>
+                <div class="performance">
+                    ⚡ 30 a 60 segundos por nota | 95% de precisão
+                </div>
+            </div>
+
+            <!-- Slide 4: Vídeo -->
+            <div class="slide slide-4">
+                <h2>Demonstração do Sistema</h2>
+                <div class="video-container">
+                    <video id="demoVideo" preload="auto">
+                        <source src="video-fiscalai.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeo HTML5.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Slide 5: Resultados -->
+            <div class="slide slide-5">
+                <h2>Resultados Comprovados</h2>
+                <div class="detectors-list">
+                    <div class="detector-item">🔍 Subfaturamento</div>
+                    <div class="detector-item">📊 NCM incorreto</div>
+                    <div class="detector-item">🔺 Triangulação fiscal</div>
+                    <div class="detector-item">✂️ Fracionamento</div>
+                    <div class="detector-item">⚠️ Fornecedores de risco</div>
+                    <div class="detector-item">⏰ Anomalias temporais</div>
+                    <div class="detector-item">💰 Valores inconsistentes</div>
+                </div>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="metric">95%</div>
+                        <div class="description">Redução no tempo de análise</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="metric">30%</div>
+                        <div class="description">Redução em multas e erros tributários</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="metric">100%</div>
+                        <div class="description">Privacidade - local ou nuvem</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="metric">ROI</div>
+                        <div class="description">Imediato - centavos vs milhares</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Mercado -->
+            <div class="slide slide-6">
+                <h2>Mercado & Estratégia</h2>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <div class="big-number">1,5 mi</div>
+                        <div class="label">Empresas varejistas</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="big-number">5,25 bi</div>
+                        <div class="label">Notas fiscais/ano</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="big-number">R$ 1,3 tri</div>
+                        <div class="label">Movimentação anual</div>
+                    </div>
+                </div>
+                <div class="strategy">
+                    <div class="phase">
+                        <h4>Fase 1</h4>
+                        <p>Member Get Member</p>
+                    </div>
+                    <div class="phase">
+                        <h4>Fase 2</h4>
+                        <p>Parcerias estratégicas com escritórios contábeis</p>
+                    </div>
+                    <div class="phase">
+                        <h4>Fase 3</h4>
+                        <p>Consolidação e escala com integração a ERPs e SPED</p>
+                    </div>
+                </div>
+                <div class="ready-badge">
+                    ✅ Solução pronta e funcional - Entregando resultados hoje!
+                </div>
+            </div>
+
+            <!-- Slide 7: Encerramento -->
+            <div class="slide slide-7">
+                <h2>Recapitulando</h2>
+                <ul class="checklist">
+                    <li>30 a 60 segundos por nota fiscal</li>
+                    <li>95% de precisão na detecção de fraudes</li>
+                    <li>7 tipos de fraudes detectados</li>
+                    <li>R$ 35 bilhões em perdas que podemos evitar</li>
+                    <li>Mercado de R$ 1,3 trilhão esperando por automação</li>
+                </ul>
+                <div class="final-question">
+                    "Quanto você está perdendo por não fazer isso ainda?"
+                </div>
+                <div class="final-cta">
+                    OLDNEWS FISCAL.AI
+                </div>
+                <div class="thanks">
+                    Obrigado! Estamos prontos para suas perguntas.
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls">
+            <button class="btn play-btn" id="playBtn">▶ Play</button>
+            <button class="btn" id="pauseBtn">⏸ Pause</button>
+            <button class="btn" id="restartBtn">↻ Restart</button>
+        </div>
+
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / 7
+        </div>
+
+        <div class="time-display">
+            <span id="timeElapsed">0:00</span> / <span id="totalTime">4:46</span>
+        </div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="audio1" preload="auto">
+        <source src="audio_segment_1.wav" type="audio/wav">
+    </audio>
+    <audio id="audio2" preload="auto">
+        <source src="audio_segment_2.wav" type="audio/wav">
+    </audio>
+    <audio id="backgroundMusic" preload="auto" loop>
+        <source src="background_music.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        // Elements
+        const slides = document.querySelectorAll('.slide');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const timeElapsedEl = document.getElementById('timeElapsed');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        
+        const audio1 = document.getElementById('audio1');
+        const audio2 = document.getElementById('audio2');
+        const video = document.getElementById('demoVideo');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        // State
+        let currentSlide = 0;
+        let isPlaying = false;
+        let startTime = 0;
+        let pausedTime = 0;
+        let timerInterval = null;
+
+        // Timing configuration (in seconds)
+        const SEGMENT1_DURATION = 70.16;  // Audio segment 1
+        const VIDEO_DURATION = 92.96;      // Video
+        const SEGMENT2_DURATION = 123.13;  // Audio segment 2
+        const TOTAL_DURATION = SEGMENT1_DURATION + VIDEO_DURATION + SEGMENT2_DURATION;
+
+        // Slide timings
+        const slideTimings = [
+            { slide: 0, time: 0 },      // Slide 1: Capa (0s)
+            { slide: 1, time: 8 },      // Slide 2: Problema (8s)
+            { slide: 2, time: 40 },     // Slide 3: Solução (40s)
+            { slide: 3, time: 70.16 },  // Slide 4: Vídeo (70.16s - when video starts)
+            { slide: 4, time: 163.12 }, // Slide 5: Resultados (70.16 + 92.96 = 163.12s)
+            { slide: 5, time: 210 },    // Slide 6: Mercado (210s)
+            { slide: 6, time: 250 }     // Slide 7: Encerramento (250s)
+        ];
+
+        // Functions
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            currentSlide = index;
+            currentSlideEl.textContent = index + 1;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            const elapsed = (Date.now() - startTime) / 1000 + pausedTime;
+            timeElapsedEl.textContent = formatTime(elapsed);
+
+            // Update slide based on elapsed time
+            for (let i = slideTimings.length - 1; i >= 0; i--) {
+                if (elapsed >= slideTimings[i].time) {
+                    if (currentSlide !== slideTimings[i].slide) {
+                        showSlide(slideTimings[i].slide);
+                    }
+                    break;
+                }
+            }
+
+            // Check if presentation is complete
+            if (elapsed >= TOTAL_DURATION) {
+                pause();
+            }
+        }
+
+        function play() {
+            if (isPlaying) return;
+            
+            isPlaying = true;
+            startTime = Date.now();
+            playBtn.textContent = '▶ Playing...';
+            playBtn.disabled = true;
+
+            const currentTime = pausedTime;
+
+            // Start audio segment 1
+            if (currentTime < SEGMENT1_DURATION) {
+                audio1.currentTime = currentTime;
+                audio1.play();
+                
+                // Schedule video to start after segment 1
+                setTimeout(() => {
+                    if (isPlaying) {
+                        audio1.pause();
+                        video.currentTime = 0;
+                        video.play();
+                        // Start background music with video
+                        backgroundMusic.volume = 0.25; // Lower volume for background
+                        backgroundMusic.currentTime = 0;
+                        backgroundMusic.play();
+                        
+                        // Schedule audio segment 2 after video
+                        setTimeout(() => {
+                            if (isPlaying) {
+                                video.pause();
+                                backgroundMusic.pause(); // Stop background music when video ends
+                                audio2.currentTime = 0;
+                                audio2.play();
+                            }
+                        }, VIDEO_DURATION * 1000);
+                    }
+                }, (SEGMENT1_DURATION - currentTime) * 1000);
+            }
+            // Resume from video
+            else if (currentTime < SEGMENT1_DURATION + VIDEO_DURATION) {
+                const videoTime = currentTime - SEGMENT1_DURATION;
+                video.currentTime = videoTime;
+                video.play();
+                // Resume background music with video
+                backgroundMusic.volume = 0.25;
+                backgroundMusic.currentTime = videoTime;
+                backgroundMusic.play();
+                
+                // Schedule audio segment 2 after video
+                setTimeout(() => {
+                    if (isPlaying) {
+                        video.pause();
+                        backgroundMusic.pause(); // Stop background music when video ends
+                        audio2.currentTime = 0;
+                        audio2.play();
+                    }
+                }, (VIDEO_DURATION - videoTime) * 1000);
+            }
+            // Resume from audio segment 2
+            else if (currentTime < TOTAL_DURATION) {
+                const audio2Time = currentTime - SEGMENT1_DURATION - VIDEO_DURATION;
+                audio2.currentTime = audio2Time;
+                audio2.play();
+            }
+
+            timerInterval = setInterval(updateTimer, 100);
+        }
+
+        function pause() {
+            if (!isPlaying) return;
+            
+            isPlaying = false;
+            pausedTime += (Date.now() - startTime) / 1000;
+            
+            audio1.pause();
+            audio2.pause();
+            video.pause();
+            backgroundMusic.pause();
+            
+            clearInterval(timerInterval);
+            playBtn.textContent = '▶ Play';
+            playBtn.disabled = false;
+        }
+
+        function restart() {
+            pause();
+            
+            pausedTime = 0;
+            audio1.currentTime = 0;
+            audio2.currentTime = 0;
+            video.currentTime = 0;
+            backgroundMusic.currentTime = 0;
+            
+            timeElapsedEl.textContent = '0:00';
+            showSlide(0);
+            
+            playBtn.textContent = '▶ Play';
+            playBtn.disabled = false;
+        }
+
+        // Event listeners
+        playBtn.addEventListener('click', play);
+        pauseBtn.addEventListener('click', pause);
+        restartBtn.addEventListener('click', restart);
+
+        // Prevent video controls
+        video.addEventListener('click', (e) => e.preventDefault());
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
